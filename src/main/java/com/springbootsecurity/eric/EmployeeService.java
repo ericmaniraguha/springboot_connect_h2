@@ -2,6 +2,7 @@ package com.springbootsecurity.eric;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -19,31 +20,36 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElse(null);
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
     }
 
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(Long id, Employee updatedEmployee) {
-        Employee employee = employeeRepository.findById(id).orElse(null);
-        if (employee != null) {
-            // Update employee properties
-            employee.setFirstName(updatedEmployee.getFirstName());
-            employee.setLastName(updatedEmployee.getLastName());
-            employee.setDepartment(updatedEmployee.getDepartment());
-            employee.setPosition(updatedEmployee.getPosition());
-            employee.setSalary(updatedEmployee.getSalary());
+    public List<Employee> createEmployees(List<Employee> employees) {
+        return employeeRepository.saveAll(employees);
+    }
 
-            return employeeRepository.save(employee);
-        }
-        return null; // Employee not found
+    public Employee updateEmployee(Long id, Employee updatedEmployee) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
+        
+        // Update employee properties
+        employee.setFirstName(updatedEmployee.getFirstName());
+        employee.setLastName(updatedEmployee.getLastName());
+        employee.setDepartment(updatedEmployee.getDepartment());
+        employee.setPosition(updatedEmployee.getPosition());
+        employee.setSalary(updatedEmployee.getSalary());
+
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
+
+        employeeRepository.delete(employee);
     }
 }
-
-
