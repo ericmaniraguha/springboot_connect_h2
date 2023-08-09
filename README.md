@@ -66,4 +66,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Happy coding!
 
+![image](https://github.com/ericmaniraguha/springboot_connect_h2/assets/44385819/0aa034e7-15bf-490e-ab7c-ab891d7de7fc)
 
