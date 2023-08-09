@@ -14,18 +14,27 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    // Retrieve a list of all employees
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
+    // Retrieve an employee by ID
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id).orElse(null);
     }
 
+    // Create a new employee
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
+    // Create multiple employees
+    public List<Employee> createEmployees(List<Employee> employees) {
+        return employeeRepository.saveAll(employees);
+    }
+
+    // Update an existing employee
     public Employee updateEmployee(Long id, Employee updatedEmployee) {
         Employee employee = employeeRepository.findById(id).orElse(null);
         if (employee != null) {
@@ -41,9 +50,8 @@ public class EmployeeService {
         return null; // Employee not found
     }
 
+    // Delete an employee by ID
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
 }
-
-
